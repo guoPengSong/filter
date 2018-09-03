@@ -3,6 +3,7 @@
     <Title></Title>
     <Mask-container></Mask-container>
     <Menu></Menu>
+      <Message></Message>
     <router-view/>
   </div>
 </template>
@@ -11,12 +12,14 @@
   import Title from './components/Title';
   import MaskContainer from './components/MaskContainer';
   import Menu from './components/Menu';
+  import Message from './components/Message';
   export default {
     name: 'App',
     components:{
       Title,
       MaskContainer,
-      Menu
+      Menu,
+        Message
     }
   }
 </script>
