@@ -1,42 +1,67 @@
 <template>
     <div class="list-wrap">
-        <div class="list-item" v-for="item in 10">
-            <div>被贴物大类：<span>塑料</span></div>
-            <div>被贴物小类：<span>PP光面</span></div>
-            <div>最低贴标温度：<span>-5</span></div>
-            <div>使用温度范围：<span>-5——55</span></div>
-            <div>是否需要超过一年的可移除性能：<span>否</span></div>
-            <div>是否有食品间接接触要求：<span>否</span></div>
-            <div>是否有皮肤致敏性测试认证：<span>是</span></div>
-            <div>面材类型：<span>铜版纸</span></div>
-            <div>底纸类型：<span>62白格拉辛 背印</span></div>
-            <div>综合性能/价格偏好：<span>适应性广</span></div>
-            <div>Product Description：<span>AW3269 铜版纸 PC/AR600/62白格拉辛 背印</span></div>
-            <div>其他说明：<span>不锈钢被贴物的贴标位置可能会出现变暗的情况。</span></div>
+        <div class="list-item" v-for="row in rows">
+            <div v-for="title in titles"><span v-text="title.name"></span>：<span class="color" v-text="row[title.name]"></span></div>
+            <div v-for="show in shows"><span v-text="show"></span>：<span class="color" v-text="row[show]"></span></div>
         </div>
         <!--loading效果-->
-        <div class="lds-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+        <!--<div class="lds-spinner">-->
+
     </div>
 </template>
 
 <script>
+
+    import table from '../data/table';
+
     export default {
         data() {
-            return {}
+            return {
+                titles: table.titles,
+                shows: table.shows,
+                rows: [],
+            }
+        },
+        watch: {
+            refresh(){
+                this.getData();
+            }
+        },
+        created(){
+            this.getData();
+        },
+        computed: {
+            refresh(){
+                return this.$store.state.refresh;
+            }
+        },
+        methods: {
+            getData: function(){
+                let titles = table.titles;
+
+                this.rows.splice(0, this.rows.length);
+                table.rows.forEach(row => {
+                    var use = true;
+                    for(var i in table.titles){
+                        var title = table.titles[i];
+                        if(title.selected.length === 0){
+                            continue;
+                        }
+                        if (title.selected.indexOf(row[title.name]) === -1){
+                            use = false;
+                            break;
+                        }
+                    }
+                    if(use){
+                        this.rows.push(row);
+                    }
+                })
+
+                // console.log(this.rows);
+
+            }
         }
+
     }
 </script>
 
@@ -52,7 +77,7 @@
             border: 1px solid #81366b;
             background: #ffffff;
             div {
-                span {
+                .color {
                     color: #4976ae;
                 }
             }

@@ -16,9 +16,9 @@
             }
         },
         created() {
-            setTimeout(()=>{
-                this.$store.commit('setShowMessage', true);
-            },1000)
+            // setTimeout(()=>{
+            //     this.$store.commit('setShowMessage', true);
+            // },1000)
         }
     };
 </script>
